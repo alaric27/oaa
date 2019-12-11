@@ -63,4 +63,16 @@ public interface CommandFactory {
      */
     <T extends Command> T createConnectionClosedResponse(final InetSocketAddress address);
 
+    /**
+     * 创建 心跳请求
+     * @return
+     */
+    <T extends Command> T createHeartBeatRequest();
+
+    /**
+     * 检查响应是否成功
+     * @param command
+     * @return
+     */
+    boolean checkResponse(Command command);
 }

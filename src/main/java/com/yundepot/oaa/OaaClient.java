@@ -5,7 +5,7 @@ import com.yundepot.oaa.config.ConfigManager;
 import com.yundepot.oaa.config.ConfigOption;
 import com.yundepot.oaa.config.Configurable;
 import com.yundepot.oaa.config.GenericOption;
-import com.yundepot.oaa.connection.ConnectionEventHandler;
+import com.yundepot.oaa.connection.ClientConnectionEventHandler;
 
 /**
  * @author zhaiyanan
@@ -14,12 +14,12 @@ import com.yundepot.oaa.connection.ConnectionEventHandler;
 public abstract class OaaClient extends AbstractLifeCycle implements Client {
 
     protected final ConfigManager configManager;
-    protected final ConnectionEventHandler connectionEventHandler;
+    protected final ClientConnectionEventHandler connectionEventHandler;
 
     public OaaClient() {
         configManager = new ConfigManager();
         configManager.option(GenericOption.CONNECTION_MANAGE, true);
-        connectionEventHandler = new ConnectionEventHandler(configManager);
+        connectionEventHandler = new ClientConnectionEventHandler(configManager);
     }
 
     @Override

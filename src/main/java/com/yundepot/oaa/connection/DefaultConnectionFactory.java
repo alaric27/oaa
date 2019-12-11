@@ -40,9 +40,9 @@ public class DefaultConnectionFactory extends AbstractLifeCycle implements Conne
     private final ChannelHandler handler;
     protected Bootstrap bootstrap;
     private Protocol protocol;
-    private ConnectionEventHandler connectionEventHandler;
+    private ClientConnectionEventHandler connectionEventHandler;
 
-    public DefaultConnectionFactory(ConnectionEventHandler connectionEventHandler, ConfigManager configManager, Protocol protocol) {
+    public DefaultConnectionFactory(ClientConnectionEventHandler connectionEventHandler, ConfigManager configManager, Protocol protocol) {
         this.configManager = configManager;
         this.codec = new DefaultCodec();
         this.heartbeatHandler = new HeartbeatHandler();
@@ -80,11 +80,9 @@ public class DefaultConnectionFactory extends AbstractLifeCycle implements Conne
                 boolean idleSwitch = configManager.getValue(GenericOption.TCP_HEARTBEAT_SWITCH);
                 if (idleSwitch) {
                     pipeline.addLast("idleStateHandler", new IdleStateHandler(
-                            configManager.getValue(GenericOption.TCP_HEARTBEAT_INTERVAL),
-                            configManager.getValue(GenericOption.TCP_HEARTBEAT_INTERVAL), 0, TimeUnit.MILLISECONDS));
+                            0,0, configManager.getValue(GenericOption.TCP_HEARTBEAT_INTERVAL), TimeUnit.MILLISECONDS));
                     pipeline.addLast("heartbeatHandler", heartbeatHandler);
                 }
-
                 pipeline.addLast("connectionEventHandler", connectionEventHandler);
                 pipeline.addLast("handler", handler);
             }
@@ -96,7 +94,6 @@ public class DefaultConnectionFactory extends AbstractLifeCycle implements Conne
     public Connection createConnection(Url url, int connectTimeout) throws ConnectionException {
         Channel channel = doCreateChannel(url.getIp(), url.getPort(), connectTimeout);
         Connection connection = new Connection(channel, protocol,url);
-        channel.pipeline().fireUserEventTriggered(ConnectionEventType.CONNECT);
         return connection;
     }
 

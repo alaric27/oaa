@@ -60,12 +60,12 @@ public class OaaServer extends AbstractLifeCycle implements Server {
     /**
      * 连接事件监听器
      */
-    protected ConnectionEventListener connectionEventListener = new ConnectionEventListener();
+    protected ConnectionEventListener connectionEventListener;
 
     /**
      * netty 的连接事件handler
      */
-    protected ConnectionEventHandler connectionEventHandler;
+    protected ServerConnectionEventHandler connectionEventHandler;
 
     /**
      * 协议管理器
@@ -166,7 +166,7 @@ public class OaaServer extends AbstractLifeCycle implements Server {
             ((EpollEventLoopGroup) workerGroup).setIoRatio(configManager.getValue(GenericOption.NETTY_IO_RATIO));
         }
 
-        this.connectionEventHandler = new ConnectionEventHandler(configManager);
+        this.connectionEventHandler = new ServerConnectionEventHandler();
         this.connectionEventHandler.setConnectionEventListener(this.connectionEventListener);
 
         this.bootstrap = new ServerBootstrap();
@@ -211,7 +211,6 @@ public class OaaServer extends AbstractLifeCycle implements Server {
                 pipeline.addLast("connectionEventHandler", connectionEventHandler);
                 pipeline.addLast("handler", dispatchProtocolHandler);
                 pipeline.addLast("exception", new ExceptionHandler());
-                channel.pipeline().fireUserEventTriggered(ConnectionEventType.CONNECT);
             }
         });
     }
@@ -224,15 +223,6 @@ public class OaaServer extends AbstractLifeCycle implements Server {
     private boolean doStart() throws InterruptedException{
         this.channelFuture = this.bootstrap.bind(new InetSocketAddress(ip(), port())).sync();
         return this.channelFuture.isSuccess();
-    }
-
-    /**
-     * 添加连接事件处理器
-     * @param type
-     * @param processor
-     */
-    public void addConnectionEventProcessor(ConnectionEventType type, ConnectionEventProcessor processor) {
-        this.connectionEventListener.addConnectionEventProcessor(type, processor);
     }
 
     /**
@@ -251,7 +241,19 @@ public class OaaServer extends AbstractLifeCycle implements Server {
         return configManager;
     }
 
+    /**
+     * 注册协议
+     * @param protocol
+     */
     public void registerProtocol(Protocol protocol) {
         protocolManager.registerProtocol(protocol);
+    }
+
+    /**
+     * 设置连接事件监听
+     * @param connectionEventListener
+     */
+    public void setConnectionEventListener(ConnectionEventListener connectionEventListener) {
+        this.connectionEventListener = connectionEventListener;
     }
 }

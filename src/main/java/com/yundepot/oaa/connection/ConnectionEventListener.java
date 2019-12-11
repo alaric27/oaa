@@ -3,6 +3,7 @@ package com.yundepot.oaa.connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
 
 /**
  * 连接事件监听器
@@ -13,6 +14,8 @@ public class ConnectionEventListener {
 
     private ConcurrentHashMap<ConnectionEventType, List<ConnectionEventProcessor>> processors = new ConcurrentHashMap<>(3);
 
+    private ExecutorService executor;
+
     /**
      * 处理监听事件
      * @param type
@@ -22,7 +25,11 @@ public class ConnectionEventListener {
         List<ConnectionEventProcessor> processorList = this.processors.get(type);
         if (processorList != null) {
             for (ConnectionEventProcessor processor : processorList) {
-                processor.onEvent(connection);
+                if (executor != null) {
+                    executor.execute(() -> processor.onEvent(connection));
+                } else {
+                    processor.onEvent(connection);
+                }
             }
         }
     }
@@ -39,5 +46,14 @@ public class ConnectionEventListener {
             processorList = this.processors.get(type);
         }
         processorList.add(processor);
+    }
+
+
+    public ExecutorService getExecutor() {
+        return executor;
+    }
+
+    public void setExecutor(ExecutorService executor) {
+        this.executor = executor;
     }
 }

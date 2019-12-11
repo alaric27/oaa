@@ -27,9 +27,6 @@ public class GenericOption {
     /** 服务同步停止 */
     public static final ConfigOption<Boolean> SERVER_SYNC_STOP = ConfigOption.valueOf("server.sync.stop", false);
 
-    /** 重连接开关 */
-    public static final ConfigOption<Boolean> CONN_RECONNECT_SWITCH = ConfigOption.valueOf("conn.reconnect.switch", false);
-
     /** CommandProcessor 默认线程池配置*/
     public static final ConfigOption<Integer> TP_MIN_SIZE = ConfigOption.valueOf("tp.min", 20);
     public static final ConfigOption<Integer> TP_MAX_SIZE = ConfigOption.valueOf("tp.max", 400);

@@ -123,7 +123,7 @@ public class ConnectionPool implements Scannable {
         for (Connection connection : connections) {
             if (!connection.isFine()) {
                 logger.warn("remove bad connection {}:{}",connection.getRemoteIP(),connection.getRemotePort());
-                connection.close();
+                connection.onClose();
                 this.removeAndTryClose(connection);
             }
         }
