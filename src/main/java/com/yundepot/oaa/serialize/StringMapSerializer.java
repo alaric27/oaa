@@ -1,79 +1,77 @@
 package com.yundepot.oaa.serialize;
 
-import com.yundepot.oaa.util.StringUtils;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
-import io.netty.buffer.Unpooled;
-
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
  * @author zhaiyanan
- * @date 2020/5/18  11:26
+ * @date 2019/6/13 14:05
  */
-public final class StringMapSerializer {
+public class StringMapSerializer {
 
-    /**
-     * 编码
-     * @param map
-     * @return
-     */
-    public byte[] encode(Map<String, String> map) {
-        if (map == null || map.isEmpty()) {
+    public static byte[] serialize(Map<String, String> map) {
+        if (null == map || map.isEmpty()) {
             return null;
         }
-        ByteBuf buf = ByteBufAllocator.DEFAULT.buffer();
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            if (StringUtils.isNotBlank(key) && StringUtils.isNotBlank(value)) {
-                writeString(buf, key);
-                writeString(buf, value);
+
+        int totalLength = 0;
+        int kvLength;
+        Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, String> entry = it.next();
+            if (entry.getKey() != null && entry.getValue() != null) {
+                kvLength = 2 + entry.getKey().getBytes(StandardCharsets.UTF_8).length + 2 + entry.getValue().getBytes(StandardCharsets.UTF_8).length;
+                totalLength += kvLength;
             }
         }
-        return buf.array();
+
+        ByteBuffer content = ByteBuffer.allocate(totalLength);
+        byte[] key;
+        byte[] value;
+        it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, String> entry = it.next();
+            if (entry.getKey() != null && entry.getValue() != null) {
+                key = entry.getKey().getBytes(StandardCharsets.UTF_8);
+                value = entry.getValue().getBytes(StandardCharsets.UTF_8);
+
+                content.putShort((short) key.length);
+                content.put(key);
+
+                content.putShort((short) value.length);
+                content.put(value);
+            }
+        }
+        return content.array();
     }
 
 
-    /**
-     * 解码
-     * @param bytes
-     * @return
-     */
-    public Map<String, String> decode(byte[] bytes) {
-        Map<String, String> map = new HashMap<>();
-        if (bytes == null || bytes.length == 0) {
-            return map;
+    public static Map<String, String> deserialize(byte[] bytes) {
+        if (bytes == null || bytes.length <= 0) {
+            return null;
         }
 
-        ByteBuf buf = Unpooled.wrappedBuffer(bytes);
-        while (buf.readableBytes() > 0) {
-            String key = readString(buf);
-            String value = readString(buf);
-            if (StringUtils.isNotBlank(key) && StringUtils.isNotBlank(value)) {
-                map.put(key, value);
-            }
+        Map<String, String> map = new HashMap<>();
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+
+        short keySize;
+        byte[] keyContent;
+        short valueSize;
+        byte[] valueContent;
+        while (byteBuffer.hasRemaining()) {
+            keySize = byteBuffer.getShort();
+            keyContent = new byte[keySize];
+            byteBuffer.get(keyContent);
+
+            valueSize = byteBuffer.getShort();
+            valueContent = new byte[valueSize];
+            byteBuffer.get(valueContent);
+
+            map.put(new String(keyContent, StandardCharsets.UTF_8), new String(valueContent, StandardCharsets.UTF_8));
         }
         return map;
-    }
-
-    private void writeString(ByteBuf buf, String str) {
-        byte[] bs = StringSerializer.encode(str);
-        buf.writeInt(bs.length);
-        buf.writeBytes(bs);
-    }
-
-    protected String readString(ByteBuf buf) {
-        int length = buf.readInt();
-        if (length < 0) {
-            return null;
-        } else if (length == 0) {
-            return StringUtils.EMPTY;
-        } else {
-            byte[] value = new byte[length];
-            buf.readBytes(value);
-            return StringSerializer.decode(value);
-        }
     }
 }

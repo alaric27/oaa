@@ -8,11 +8,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SerializerManager {
 
-    private static ConcurrentHashMap<Integer, Serializer> serializers = new ConcurrentHashMap(4);
+    private static ConcurrentHashMap<Byte, Serializer> serializers = new ConcurrentHashMap(4);
     public static final byte HESSIAN = 1;
+    public static final byte STRING = 2;
 
     static {
         addSerializer(HESSIAN, new HessianSerializer());
+        addSerializer(STRING, new StringSerializer());
     }
 
     /**
@@ -20,7 +22,7 @@ public class SerializerManager {
      * @param serializeCode
      * @return
      */
-    public static Serializer getSerializer(int serializeCode) {
+    public static Serializer getSerializer(byte serializeCode) {
         return serializers.get(serializeCode);
     }
 
@@ -29,7 +31,7 @@ public class SerializerManager {
      * @param serializeCode
      * @param serializer
      */
-    public static void addSerializer(int serializeCode, Serializer serializer) {
+    public static void addSerializer(byte serializeCode, Serializer serializer) {
         Serializer exists= serializers.putIfAbsent(serializeCode, serializer);
         if (exists != null) {
             throw new RuntimeException("Serializer for code: " + serializeCode + " already exists!");

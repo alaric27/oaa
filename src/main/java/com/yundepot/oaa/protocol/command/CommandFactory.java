@@ -24,18 +24,17 @@ public interface CommandFactory {
      * @param <T>
      * @return
      */
-    <T extends Command> T createResponse( Command request, final Object response);
+    <T extends Command> T createResponse(Command request, final Object response);
 
 
     /**
      * 创建异常响应 -- 服务端响应
-     * @param id
-     * @param t
+     * @param request
      * @param errMsg
      * @param <T>
      * @return
      */
-    <T extends Command> T createExceptionResponse(int id, final Throwable t, String errMsg);
+    <T extends Command> T createExceptionResponse(Command request, final Throwable t, String errMsg);
 
 
     /**

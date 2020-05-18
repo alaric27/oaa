@@ -1,29 +1,23 @@
 package com.yundepot.oaa.serialize;
 
+import com.yundepot.oaa.exception.SerializationException;
+
 import java.nio.charset.StandardCharsets;
 
 /**
  * @author zhaiyanan
  * @date 2020/5/18  11:21
  */
-public final class StringSerializer {
+public final class StringSerializer implements Serializer{
 
-
-    /**
-     * 编码
-     * @param s
-     * @return
-     */
-    public static byte[] encode(String s) {
-        return s == null ? new byte[0] : s.getBytes(StandardCharsets.UTF_8);
+    @Override
+    public byte[] serialize(Object object) throws SerializationException {
+        String str = (String) object;
+        return str == null ? new byte[0] : str.getBytes(StandardCharsets.UTF_8);
     }
 
-    /**
-     * 解码
-     * @param data
-     * @return
-     */
-    public static String decode(byte[] data) {
+    @Override
+    public String deserialize(byte[] data, String clazz) throws SerializationException {
         return data == null ? null : new String(data, StandardCharsets.UTF_8);
     }
 }
