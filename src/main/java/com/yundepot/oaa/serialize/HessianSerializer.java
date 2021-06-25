@@ -3,6 +3,7 @@ package com.yundepot.oaa.serialize;
 import com.caucho.hessian.io.Hessian2Input;
 import com.caucho.hessian.io.Hessian2Output;
 import com.caucho.hessian.io.SerializerFactory;
+import com.yundepot.oaa.exception.DeserializationException;
 import com.yundepot.oaa.exception.SerializationException;
 
 import java.io.ByteArrayInputStream;
@@ -32,7 +33,7 @@ public class HessianSerializer implements Serializer{
     }
 
     @Override
-    public <T> T deserialize(byte[] data, String clazz) throws SerializationException {
+    public <T> T deserialize(byte[] data, String clazz) throws DeserializationException {
         Hessian2Input input = new Hessian2Input(new ByteArrayInputStream(data));
         input.setSerializerFactory(serializerFactory);
         Object resultObject = null;
@@ -40,7 +41,7 @@ public class HessianSerializer implements Serializer{
             resultObject = input.readObject();
             input.close();
         } catch (IOException e) {
-            throw new SerializationException("IOException occurred when Hession serializer decode", e);
+            throw new DeserializationException("IOException occurred when Hession serializer decode", e);
         }
         return (T) resultObject;
     }

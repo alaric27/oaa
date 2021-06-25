@@ -1,5 +1,6 @@
 package com.yundepot.oaa.serialize;
 
+import com.yundepot.oaa.exception.DeserializationException;
 import com.yundepot.oaa.exception.SerializationException;
 
 /**
@@ -22,7 +23,7 @@ public interface Serializer {
      * @param clazz
      * @param <T>
      * @return
-     * @throws SerializationException
+     * @throws DeserializationException
      */
-    <T> T deserialize(final byte[]data, String clazz) throws SerializationException;
+    <T> T deserialize(final byte[]data, String clazz) throws DeserializationException;
 }

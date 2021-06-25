@@ -1,5 +1,7 @@
 package com.yundepot.oaa.protocol.command;
 
+import com.yundepot.oaa.exception.DeserializationException;
+import com.yundepot.oaa.exception.SerializationException;
 import com.yundepot.oaa.protocol.ProtocolCode;
 
 import java.io.Serializable;
@@ -27,4 +29,23 @@ public interface Command extends Serializable {
      * @return
      */
     int getId();
+
+
+    /**
+     * 获取序列化编码
+     * @return
+     */
+    byte getSerializer();
+
+    /**
+     * 序列化
+     * @throws SerializationException
+     */
+    void serialize() throws SerializationException;
+
+    /**
+     * 反序列化
+     * @throws SerializationException
+     */
+    void deserialize() throws DeserializationException;
 }

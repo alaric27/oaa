@@ -1,5 +1,6 @@
 package com.yundepot.oaa.serialize;
 
+import com.yundepot.oaa.exception.DeserializationException;
 import com.yundepot.oaa.exception.SerializationException;
 
 import java.nio.charset.StandardCharsets;
@@ -17,7 +18,7 @@ public final class StringSerializer implements Serializer{
     }
 
     @Override
-    public String deserialize(byte[] data, String clazz) throws SerializationException {
+    public String deserialize(byte[] data, String clazz) throws DeserializationException {
         return data == null ? null : new String(data, StandardCharsets.UTF_8);
     }
 }
