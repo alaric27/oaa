@@ -1,4 +1,4 @@
-package com.yundepot.oaa.protocol;
+package com.yundepot.oaa.protocol.trigger;
 
 import io.netty.channel.ChannelHandlerContext;
 

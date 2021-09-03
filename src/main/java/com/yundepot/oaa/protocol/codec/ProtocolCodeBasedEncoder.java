@@ -13,7 +13,7 @@ import io.netty.util.Attribute;
 import java.io.Serializable;
 
 /**
- * 基于protocol code 的编码器, 主要作用是根据协议获取对应的 CommandEncoder进行编码
+ * 基于protocol code 的编码器, 主要作用是根据协议获取对应的 ProtocolEncoder进行编码
  * @author zhaiyanan
  * @date 2019/5/22 10:19
  */

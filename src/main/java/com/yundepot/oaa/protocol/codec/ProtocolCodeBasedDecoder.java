@@ -12,7 +12,7 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import java.util.List;
 
 /**
- * 基于协议编码的解码器, 作用为解析出协议编码，并且根据协议编码找到对应的CommandDecoder进行解析
+ * 基于协议编码的解码器, 作用为解析出协议编码，并且根据协议编码找到对应的ProtocolDecoder进行解析
  * @author zhaiyanan
  * @date 2019/5/22 09:32
  */

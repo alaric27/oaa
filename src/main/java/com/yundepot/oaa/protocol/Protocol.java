@@ -3,6 +3,8 @@ package com.yundepot.oaa.protocol;
 import com.yundepot.oaa.protocol.codec.ProtocolDecoder;
 import com.yundepot.oaa.protocol.codec.ProtocolEncoder;
 import com.yundepot.oaa.protocol.command.CommandFactory;
+import com.yundepot.oaa.protocol.handler.ProtocolHandler;
+import com.yundepot.oaa.protocol.trigger.HeartbeatTrigger;
 
 /**
  * 协议接口

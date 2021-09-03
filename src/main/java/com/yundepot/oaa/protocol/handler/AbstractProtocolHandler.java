@@ -1,4 +1,4 @@
-package com.yundepot.oaa.protocol;
+package com.yundepot.oaa.protocol.handler;
 
 import com.yundepot.oaa.common.NamedThreadFactory;
 import com.yundepot.oaa.config.GenericOption;
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @author zhaiyanan
  * @date 2019/5/29 18:51
  */
-public abstract class AbstractProtocolHandler implements ProtocolHandler{
+public abstract class AbstractProtocolHandler implements ProtocolHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractProtocolHandler.class);
     private CommandProcessorManager commandProcessorManager;

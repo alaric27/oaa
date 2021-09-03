@@ -1,4 +1,4 @@
-package com.yundepot.oaa.protocol;
+package com.yundepot.oaa.protocol.trigger;
 
 import com.yundepot.oaa.common.TimerHolder;
 import com.yundepot.oaa.config.GenericOption;
@@ -6,6 +6,7 @@ import com.yundepot.oaa.config.GlobalConfigManager;
 import com.yundepot.oaa.connection.Connection;
 import com.yundepot.oaa.invoke.DefaultInvokeFuture;
 import com.yundepot.oaa.invoke.InvokeFuture;
+import com.yundepot.oaa.protocol.Protocol;
 import com.yundepot.oaa.protocol.command.Command;
 import com.yundepot.oaa.protocol.command.CommandFactory;
 import com.yundepot.oaa.util.RemotingUtil;

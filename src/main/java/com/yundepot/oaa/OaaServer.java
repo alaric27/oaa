@@ -8,7 +8,7 @@ import com.yundepot.oaa.config.ConfigOption;
 import com.yundepot.oaa.config.Configurable;
 import com.yundepot.oaa.config.GenericOption;
 import com.yundepot.oaa.connection.*;
-import com.yundepot.oaa.protocol.DispatchProtocolHandler;
+import com.yundepot.oaa.protocol.handler.DispatchProtocolHandler;
 import com.yundepot.oaa.protocol.Protocol;
 import com.yundepot.oaa.protocol.ProtocolManager;
 import com.yundepot.oaa.protocol.codec.Codec;

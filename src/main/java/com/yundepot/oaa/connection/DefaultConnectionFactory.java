@@ -6,7 +6,7 @@ import com.yundepot.oaa.common.NamedThreadFactory;
 import com.yundepot.oaa.config.ConfigManager;
 import com.yundepot.oaa.config.GenericOption;
 import com.yundepot.oaa.exception.ConnectionException;
-import com.yundepot.oaa.protocol.DispatchProtocolHandler;
+import com.yundepot.oaa.protocol.handler.DispatchProtocolHandler;
 import com.yundepot.oaa.protocol.Protocol;
 import com.yundepot.oaa.protocol.codec.Codec;
 import com.yundepot.oaa.protocol.codec.DefaultCodec;

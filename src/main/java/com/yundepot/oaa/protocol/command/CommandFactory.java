@@ -18,6 +18,15 @@ public interface CommandFactory {
     <T extends Command> T createRequest(final Object request);
 
     /**
+     * 创建请求命令
+     * @param commandCode
+     * @param request
+     * @param <T>
+     * @return
+     */
+    <T extends Command> T createRequest(CommandCode commandCode, final Object request);
+
+    /**
      * 创建响应命令
      * @param response
      * @param request
@@ -25,7 +34,6 @@ public interface CommandFactory {
      * @return
      */
     <T extends Command> T createResponse(Command request, final Object response);
-
 
     /**
      * 创建异常响应 -- 服务端响应
