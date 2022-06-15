@@ -26,17 +26,17 @@ public enum ResponseStatus {
 
     public static ResponseStatus valueOf(short value) {
         switch (value) {
-            case 0x0000:
+            case 0:
                 return SUCCESS;
-            case 0x0002:
+            case 1:
                 return SERVER_EXCEPTION;
-            case 0x0007:
+            case 2:
                 return TIMEOUT;
-            case 0x0008:
+            case 3:
                 return CLIENT_SEND_EXCEPTION;
-            case 0x0009:
+            case 4:
                 return CODEC_EXCEPTION;
-            case 0x0010:
+            case 5:
                 return CONNECTION_CLOSED;
         }
         throw new IllegalArgumentException("Unknown status value ," + value);
