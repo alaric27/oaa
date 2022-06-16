@@ -25,6 +25,12 @@ public interface Command extends Serializable {
     short getCommandCode();
 
     /**
+     * 获取命令类型
+     * @return
+     */
+    byte getCommandType();
+
+    /**
      * 获取请求ID
      * @return
      */

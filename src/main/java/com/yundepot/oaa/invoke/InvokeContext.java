@@ -18,20 +18,14 @@ public class InvokeContext {
     private ChannelHandlerContext channelHandlerContext;
 
     /**
-     * 超时丢弃请求
-     */
-    private boolean timeoutDiscard = true;
-
-    /**
      * 请求到达时间
      */
     private long arriveTimestamp;
 
     /**
-     * 超时时间
+     * 命令类型
      */
-    private int timeout;
-
+    private byte commandType;
     /**
      * 附加字段
      */
@@ -45,28 +39,8 @@ public class InvokeContext {
         return this.channelHandlerContext.writeAndFlush(msg);
     }
 
-    /**
-     * 请求是否超时
-     * @return
-     */
-    public boolean isRequestTimeout() {
-        if (this.timeout > 0 && (System.currentTimeMillis() - this.arriveTimestamp) > this.timeout) {
-            return true;
-        }
-        return false;
-    }
-
     public Connection getConnection() {
         return ConnectionUtil.getConnectionFromChannel(channelHandlerContext.channel());
-    }
-
-    public boolean isTimeoutDiscard() {
-        return timeoutDiscard;
-    }
-
-    public InvokeContext setTimeoutDiscard(boolean failFastEnabled) {
-        this.timeoutDiscard = failFastEnabled;
-        return this;
     }
 
     public ChannelHandlerContext getChannelHandlerContext() {
@@ -81,19 +55,19 @@ public class InvokeContext {
         this.arriveTimestamp = arriveTimestamp;
     }
 
-    public int getTimeout() {
-        return timeout;
-    }
-
-    public void setTimeout(int timeout) {
-        this.timeout = timeout;
-    }
-
     public Map<String, String> getAttachment() {
         return attachment;
     }
 
     public void setAttachment(Map<String, String> attachment) {
         this.attachment = attachment;
+    }
+
+    public byte getCommandType() {
+        return commandType;
+    }
+
+    public void setCommandType(byte commandType) {
+        this.commandType = commandType;
     }
 }
