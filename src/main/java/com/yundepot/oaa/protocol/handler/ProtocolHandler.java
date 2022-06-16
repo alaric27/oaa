@@ -1,7 +1,6 @@
 package com.yundepot.oaa.protocol.handler;
 
 import com.yundepot.oaa.invoke.InvokeContext;
-import com.yundepot.oaa.protocol.command.CommandCode;
 import com.yundepot.oaa.protocol.command.CommandProcessor;
 
 import java.util.concurrent.ExecutorService;
@@ -23,10 +22,10 @@ public interface ProtocolHandler {
 
     /**
      * 注册command code 对应的 CommandProcessor
-     * @param cmd
+     * @param commandCode
      * @param processor
      */
-    void registerCommandProcessor(CommandCode cmd, CommandProcessor<?> processor);
+    void registerCommandProcessor(short commandCode, CommandProcessor<?> processor);
 
     /**
      * 注册默认的线程执行器

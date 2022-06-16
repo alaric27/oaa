@@ -7,11 +7,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2019/5/23 14:20
  */
 public class CommandProcessorManager {
-    private ConcurrentHashMap<CommandCode, CommandProcessor<?>> processors = new ConcurrentHashMap<>(4);
+    private ConcurrentHashMap<Short, CommandProcessor<?>> processors = new ConcurrentHashMap<>(4);
 
     private CommandProcessor<?> defaultProcessor;
 
-    public void registerProcessor(CommandCode cmdCode, CommandProcessor<?> processor) {
+    public void registerProcessor(short cmdCode, CommandProcessor<?> processor) {
         this.processors.put(cmdCode, processor);
     }
 
@@ -28,7 +28,7 @@ public class CommandProcessorManager {
      * @param cmdCode
      * @return
      */
-    public CommandProcessor<?> getProcessor(CommandCode cmdCode) {
+    public CommandProcessor<?> getProcessor(short cmdCode) {
         CommandProcessor<?> processor = this.processors.get(cmdCode);
         if (processor != null) {
             return processor;

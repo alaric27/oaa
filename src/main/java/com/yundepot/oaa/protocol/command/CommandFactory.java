@@ -24,7 +24,7 @@ public interface CommandFactory {
      * @param <T>
      * @return
      */
-    <T extends Command> T createRequest(CommandCode commandCode, final Object request);
+    <T extends Command> T createRequest(short commandCode, final Object request);
 
     /**
      * 创建响应命令

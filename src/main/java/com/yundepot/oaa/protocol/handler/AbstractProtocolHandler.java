@@ -64,12 +64,12 @@ public abstract class AbstractProtocolHandler implements ProtocolHandler {
 
     /**
      * 注册处理
-     * @param cmd
+     * @param commandCode
      * @param processor
      */
     @Override
-    public void registerCommandProcessor(CommandCode cmd, CommandProcessor processor) {
-        this.commandProcessorManager.registerProcessor(cmd, processor);
+    public void registerCommandProcessor(short commandCode, CommandProcessor processor) {
+        this.commandProcessorManager.registerProcessor(commandCode, processor);
     }
 
     /**

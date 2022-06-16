@@ -22,7 +22,7 @@ public interface Command extends Serializable {
      * 获取命令编码
      * @return
      */
-    CommandCode getCommandCode();
+    short getCommandCode();
 
     /**
      * 获取请求ID
