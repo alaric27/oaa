@@ -14,10 +14,10 @@ public interface CommandProcessor<T extends Command> {
     /**
      * 处理remoting command
      * @param ctx
-     * @param msg
+     * @param command
      * @throws Exception
      */
-    void process(InvokeContext ctx, T msg);
+    void process(InvokeContext ctx, T command);
 
     /**
      * 获取执行器

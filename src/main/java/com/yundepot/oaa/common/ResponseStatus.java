@@ -19,26 +19,7 @@ public enum ResponseStatus {
         this.code = code;
     }
 
-    public short getValue() {
+    public short value() {
         return code;
-    }
-
-
-    public static ResponseStatus valueOf(short value) {
-        switch (value) {
-            case 0:
-                return SUCCESS;
-            case 1:
-                return SERVER_EXCEPTION;
-            case 2:
-                return TIMEOUT;
-            case 3:
-                return CLIENT_SEND_EXCEPTION;
-            case 4:
-                return CODEC_EXCEPTION;
-            case 5:
-                return CONNECTION_CLOSED;
-        }
-        throw new IllegalArgumentException("Unknown status value ," + value);
     }
 }
