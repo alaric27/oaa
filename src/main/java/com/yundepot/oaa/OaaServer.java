@@ -105,7 +105,7 @@ public class OaaServer extends AbstractLifeCycle implements Server {
             if (!doStart()){
                 throw new IllegalStateException("Failed starting server on port: " + port);
             }
-            log.info("ooa server start ip:{}, port:{}", ip, port);
+            log.info("server start ip:{}, port:{}", ip, port);
         } catch (Throwable t) {
             this.shutdown();
             throw new IllegalStateException("Failed to start the Server!", t);
