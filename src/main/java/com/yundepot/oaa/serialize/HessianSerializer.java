@@ -14,7 +14,7 @@ import java.io.IOException;
  * @author zhaiyanan
  * @date 2019/5/21 19:29
  */
-public class HessianSerializer implements Serializer{
+public final class HessianSerializer implements Serializer{
 
     private SerializerFactory serializerFactory = new SerializerFactory();
 

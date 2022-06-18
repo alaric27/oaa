@@ -19,7 +19,7 @@ import java.util.concurrent.ThreadFactory;
  */
 public class NettyEventLoopUtil {
 
-    private static boolean epollEnabled = GlobalConfigManager.getValue(GenericOption.NETTY_EPOLL_SWITCH) && Epoll.isAvailable();
+    private static final boolean epollEnabled = GlobalConfigManager.getValue(GenericOption.NETTY_EPOLL_SWITCH) && Epoll.isAvailable();
 
     public static EventLoopGroup newEventLoopGroup(int nThreads, ThreadFactory threadFactory) {
         return epollEnabled ? new EpollEventLoopGroup(nThreads, threadFactory) : new NioEventLoopGroup(nThreads, threadFactory);

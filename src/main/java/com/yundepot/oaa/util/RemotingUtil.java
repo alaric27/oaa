@@ -136,7 +136,7 @@ public class RemotingUtil {
      * @return
      */
     public static String parseSocketAddressToHostIp(SocketAddress socketAddress) {
-        final InetSocketAddress addrs = (InetSocketAddress) socketAddress;
+        InetSocketAddress addrs = (InetSocketAddress) socketAddress;
         if (addrs != null) {
             InetAddress addr = addrs.getAddress();
             if (null != addr) {
