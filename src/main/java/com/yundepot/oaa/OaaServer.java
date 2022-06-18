@@ -22,6 +22,7 @@ import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +31,7 @@ import java.util.concurrent.TimeUnit;
  * @author zhaiyanan
  * @date 2019/5/22 09:17
  */
+@Slf4j
 public class OaaServer extends AbstractLifeCycle implements Server {
 
     /**
@@ -103,6 +105,7 @@ public class OaaServer extends AbstractLifeCycle implements Server {
             if (!doStart()){
                 throw new IllegalStateException("Failed starting server on port: " + port);
             }
+            log.info("ooa server start ip:{}, port:{}", ip, port);
         } catch (Throwable t) {
             this.shutdown();
             throw new IllegalStateException("Failed to start the Server!", t);
