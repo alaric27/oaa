@@ -35,6 +35,10 @@ public final class HessianSerializer implements Serializer{
 
     @Override
     public Object deserialize(byte[] data, Map<String, String> context) throws DeserializationException {
+        if (data == null || data.length == 0) {
+            return null;
+        }
+
         Hessian2Input input = new Hessian2Input(new ByteArrayInputStream(data));
         input.setSerializerFactory(serializerFactory);
         Object resultObject = null;
