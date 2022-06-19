@@ -20,7 +20,7 @@ public final class HessianSerializer implements Serializer{
     private SerializerFactory serializerFactory = new SerializerFactory();
 
     @Override
-    public byte[] serialize(Object object) throws SerializationException {
+    public byte[] serialize(Object object, Map<String, String> context) throws SerializationException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Hessian2Output output = new Hessian2Output(outputStream);
         output.setSerializerFactory(serializerFactory);

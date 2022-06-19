@@ -14,10 +14,11 @@ public interface Serializer {
     /**
      * 序列化
      * @param object
+     * @param context
      * @return
      * @throws SerializationException
      */
-    byte[] serialize(final Object object) throws SerializationException;
+    byte[] serialize(final Object object, Map<String, String> context) throws SerializationException;
 
     /**
      * 反序列化

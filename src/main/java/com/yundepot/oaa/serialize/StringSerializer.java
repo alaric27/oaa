@@ -13,7 +13,7 @@ import java.util.Map;
 public final class StringSerializer implements Serializer{
 
     @Override
-    public byte[] serialize(Object object) throws SerializationException {
+    public byte[] serialize(Object object, Map<String, String> context) throws SerializationException {
         String str = (String) object;
         return str == null ? new byte[0] : str.getBytes(StandardCharsets.UTF_8);
     }
