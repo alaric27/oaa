@@ -4,6 +4,7 @@ import com.yundepot.oaa.exception.DeserializationException;
 import com.yundepot.oaa.exception.SerializationException;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 /**
  * @author zhaiyanan
@@ -18,7 +19,7 @@ public final class StringSerializer implements Serializer{
     }
 
     @Override
-    public String deserialize(byte[] data, String clazz) throws DeserializationException {
+    public Object deserialize(byte[] data, Map<String, String> context) throws DeserializationException {
         return data == null ? null : new String(data, StandardCharsets.UTF_8);
     }
 }

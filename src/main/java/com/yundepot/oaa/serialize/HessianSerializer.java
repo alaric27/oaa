@@ -9,6 +9,7 @@ import com.yundepot.oaa.exception.SerializationException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * @author zhaiyanan
@@ -27,13 +28,13 @@ public final class HessianSerializer implements Serializer{
             output.writeObject(object);
             output.close();
         } catch (IOException e) {
-            throw new SerializationException("IOException occurred when Hession serializer encode", e);
+            throw new SerializationException("IOException occurred when Hessian serializer encode", e);
         }
         return outputStream.toByteArray();
     }
 
     @Override
-    public <T> T deserialize(byte[] data, String clazz) throws DeserializationException {
+    public Object deserialize(byte[] data, Map<String, String> context) throws DeserializationException {
         Hessian2Input input = new Hessian2Input(new ByteArrayInputStream(data));
         input.setSerializerFactory(serializerFactory);
         Object resultObject = null;
@@ -41,8 +42,8 @@ public final class HessianSerializer implements Serializer{
             resultObject = input.readObject();
             input.close();
         } catch (IOException e) {
-            throw new DeserializationException("IOException occurred when Hession serializer decode", e);
+            throw new DeserializationException("IOException occurred when Hessian serializer decode", e);
         }
-        return (T) resultObject;
+        return resultObject;
     }
 }
