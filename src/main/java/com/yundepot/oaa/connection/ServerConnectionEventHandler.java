@@ -6,24 +6,23 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author: zhaiyanan
  * @date: 2019/12/10 19:58
  */
+@Slf4j
 @ChannelHandler.Sharable
 public class ServerConnectionEventHandler extends ChannelDuplexHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(ServerConnectionEventHandler.class);
     private ConnectionEventListener connectionEventListener;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
         String remoteUrl = RemotingUtil.parseRemoteAddress(channel);
-        logger.info("netty server active {}", remoteUrl);
+        log.info("netty server active {}", remoteUrl);
         Connection connection = new Connection(channel, null, Url.parse(remoteUrl));
         super.channelActive(ctx);
         onEvent(connection, ConnectionEventType.CONNECT);
@@ -33,7 +32,7 @@ public class ServerConnectionEventHandler extends ChannelDuplexHandler {
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
         String remoteUrl = RemotingUtil.parseRemoteAddress(channel);
-        logger.info("netty server inactive {}", remoteUrl);
+        log.info("netty server inactive {}", remoteUrl);
         Protocol protocol = channel.attr(Connection.PROTOCOL).get();
         Connection connection = new Connection(channel, protocol, Url.parse(remoteUrl));
         onEvent(connection, ConnectionEventType.CLOSE);

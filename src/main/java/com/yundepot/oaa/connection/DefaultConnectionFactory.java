@@ -6,10 +6,10 @@ import com.yundepot.oaa.common.NamedThreadFactory;
 import com.yundepot.oaa.config.ConfigManager;
 import com.yundepot.oaa.config.GenericOption;
 import com.yundepot.oaa.exception.ConnectionException;
-import com.yundepot.oaa.protocol.handler.DispatchProtocolHandler;
 import com.yundepot.oaa.protocol.Protocol;
 import com.yundepot.oaa.protocol.codec.Codec;
 import com.yundepot.oaa.protocol.codec.DefaultCodec;
+import com.yundepot.oaa.protocol.handler.DispatchProtocolHandler;
 import com.yundepot.oaa.util.NettyEventLoopUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -17,8 +17,7 @@ import io.netty.buffer.UnpooledByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
@@ -27,8 +26,8 @@ import java.util.concurrent.TimeUnit;
  * @author zhaiyanan
  * @date 2019/5/15 13:52
  */
+@Slf4j
 public class DefaultConnectionFactory extends AbstractLifeCycle implements ConnectionFactory{
-    private static final Logger logger = LoggerFactory.getLogger(DefaultConnectionFactory.class);
 
     private static final EventLoopGroup workerGroup = NettyEventLoopUtil
                     .newEventLoopGroup(Runtime.getRuntime().availableProcessors() + 1,
@@ -114,17 +113,17 @@ public class DefaultConnectionFactory extends AbstractLifeCycle implements Conne
         future.awaitUninterruptibly();
 
         if (!future.isDone()) {
-            logger.error("create connection to " + address +" timeout");
+            log.error("create connection to " + address +" timeout");
             throw new ConnectionException("create connection to " + address +" timeout");
         }
 
         if (future.isCancelled()) {
-            logger.error("create connection to " + address + " cancelled by user");
+            log.error("create connection to " + address + " cancelled by user");
             throw new ConnectionException("create connection to " + address + " cancelled by user");
         }
 
         if (!future.isSuccess()) {
-            logger.error("create connection to " + address + " error");
+            log.error("create connection to " + address + " error");
             throw new ConnectionException("create connection to " + address + " error", future.cause());
         }
 

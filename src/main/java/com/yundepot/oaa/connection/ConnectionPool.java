@@ -1,8 +1,7 @@
 package com.yundepot.oaa.connection;
 
 import com.yundepot.oaa.common.Scannable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +12,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author zhaiyanan
  * @date 2019/5/15 18:06
  */
+@Slf4j
 public class ConnectionPool implements Scannable {
-    private static final Logger logger = LoggerFactory.getLogger(ConnectionPool.class);
 
     /**
      * 保存所有的连接
@@ -122,7 +121,7 @@ public class ConnectionPool implements Scannable {
     public void scan() {
         for (Connection connection : connections) {
             if (!connection.isFine()) {
-                logger.warn("remove bad connection {}:{}",connection.getRemoteIP(),connection.getRemotePort());
+                log.warn("remove bad connection {}:{}",connection.getRemoteIP(),connection.getRemotePort());
                 connection.onClose();
                 this.removeAndTryClose(connection);
             }

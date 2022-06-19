@@ -1,15 +1,14 @@
 package com.yundepot.oaa;
 
+import com.yundepot.oaa.common.TimerHolder;
+import com.yundepot.oaa.connection.Connection;
 import com.yundepot.oaa.invoke.InvokeCallback;
 import com.yundepot.oaa.invoke.InvokeFuture;
 import com.yundepot.oaa.protocol.command.Command;
 import com.yundepot.oaa.protocol.command.CommandFactory;
-import com.yundepot.oaa.common.TimerHolder;
-import com.yundepot.oaa.connection.Connection;
 import com.yundepot.oaa.util.RemotingUtil;
 import io.netty.util.Timeout;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,9 +20,8 @@ import java.util.concurrent.TimeUnit;
  * @author zhaiyanan
  * @date 2019/5/20 14:09
  */
+@Slf4j
 public abstract class BaseRemoting {
-
-    private static final Logger logger = LoggerFactory.getLogger(BaseRemoting.class);
 
     private CommandFactory commandFactory;
 
@@ -49,13 +47,13 @@ public abstract class BaseRemoting {
             connection.getChannel().writeAndFlush(request).addListener((cf) -> {
                 if (!cf.isSuccess()) {
                     future.putResponse(commandFactory.createSendFailedResponse(connection.getRemoteAddress(), cf.cause()));
-                    logger.error("invoke send failed , id={}", requestId, cf.cause());
+                    log.error("invoke send failed , id={}", requestId, cf.cause());
                 }
             });
             Command response = future.waitResponse(timeoutMillis);
             if (response == null) {
                 response = this.commandFactory.createTimeoutResponse(connection.getRemoteAddress());
-                logger.error("wait response, request id={} timeout", requestId);
+                log.error("wait response, request id={} timeout", requestId);
             }
             return response;
         } finally {
@@ -94,7 +92,7 @@ public abstract class BaseRemoting {
                         invokeFuture.putResponse(commandFactory.createSendFailedResponse(connection.getRemoteAddress(), cf.cause()));
                         invokeFuture.tryAsyncExecuteInvokeCallbackAbnormally();
                     }
-                    logger.error("invoke send failed. the address is {}", RemotingUtil.parseRemoteAddress(connection.getChannel()), cf.cause());
+                    log.error("invoke send failed. the address is {}", RemotingUtil.parseRemoteAddress(connection.getChannel()), cf.cause());
                 }
             });
         } catch (Exception e) {
@@ -105,7 +103,7 @@ public abstract class BaseRemoting {
                 invokeFuture.putResponse(commandFactory.createSendFailedResponse(connection.getRemoteAddress(), e));
                 invokeFuture.tryAsyncExecuteInvokeCallbackAbnormally();
             }
-            logger.error("invoke send failed. the address is {}", RemotingUtil.parseRemoteAddress(connection.getChannel()), e);
+            log.error("invoke send failed. the address is {}", RemotingUtil.parseRemoteAddress(connection.getChannel()), e);
         }
 
     }
@@ -139,7 +137,7 @@ public abstract class BaseRemoting {
                     if (invokeFuture != null) {
                         invokeFuture.cancelTimeout();
                         invokeFuture.putResponse(commandFactory.createSendFailedResponse(connection.getRemoteAddress(), cf.cause()));
-                        logger.error("invoke send failed. the address is {}", RemotingUtil.parseRemoteAddress(connection.getChannel()), cf.cause());
+                        log.error("invoke send failed. the address is {}", RemotingUtil.parseRemoteAddress(connection.getChannel()), cf.cause());
 
                     }
                 }
@@ -151,7 +149,7 @@ public abstract class BaseRemoting {
                 invokeFuture.putResponse(commandFactory.createSendFailedResponse(connection.getRemoteAddress(), e));
                 invokeFuture.tryAsyncExecuteInvokeCallbackAbnormally();
             }
-            logger.error("invoke send failed. the address is {}", RemotingUtil.parseRemoteAddress(connection.getChannel()), e);
+            log.error("invoke send failed. the address is {}", RemotingUtil.parseRemoteAddress(connection.getChannel()), e);
         }
         return future;
     }
@@ -165,11 +163,11 @@ public abstract class BaseRemoting {
         try {
             connection.getChannel().writeAndFlush(request).addListener((f) -> {
                 if (!f.isSuccess()) {
-                    logger.error("invoke send failed. The address is {}", RemotingUtil.parseRemoteAddress(connection.getChannel()), f.cause());
+                    log.error("invoke send failed. The address is {}", RemotingUtil.parseRemoteAddress(connection.getChannel()), f.cause());
                 }
             });
         } catch (Exception e) {
-            logger.error("Exception caught when sending invocation. The address is {}", e);
+            log.error("Exception caught when sending invocation. The address is {}", e);
         }
     }
 

@@ -7,8 +7,7 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.SocketAddress;
 
@@ -18,9 +17,9 @@ import java.net.SocketAddress;
  * @author zhaiyanan
  * @date 2019/5/16 15:08
  */
+@Slf4j
 @Sharable
 public class ClientConnectionEventHandler extends ChannelDuplexHandler {
-    private static final Logger logger = LoggerFactory.getLogger(ClientConnectionEventHandler.class);
     private ConnectionEventListener connectionEventListener;
     private final ConfigManager configManager;
     private ConnectionManager connectionManager;
@@ -31,7 +30,7 @@ public class ClientConnectionEventHandler extends ChannelDuplexHandler {
 
     @Override
     public void connect(ChannelHandlerContext ctx, SocketAddress remoteAddress, SocketAddress localAddress, ChannelPromise promise) throws Exception {
-        logger.info("netty client connect {} => {}", RemotingUtil.parseSocketAddressToString(localAddress),
+        log.info("netty client connect {} => {}", RemotingUtil.parseSocketAddressToString(localAddress),
                 RemotingUtil.parseSocketAddressToString(remoteAddress));
         super.connect(ctx, remoteAddress, localAddress, promise);
         final Connection connection = ctx.channel().attr(Connection.CONNECTION).get();
@@ -46,7 +45,7 @@ public class ClientConnectionEventHandler extends ChannelDuplexHandler {
      */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("netty client inactive {}", RemotingUtil.parseRemoteAddress(ctx.channel()));
+        log.info("netty client inactive {}", RemotingUtil.parseRemoteAddress(ctx.channel()));
         Connection connection = ctx.channel().attr(Connection.CONNECTION).get();
         // 如果开启了连接管理
         if (connectionManager != null && configManager.getValue(GenericOption.CONNECTION_MANAGE)) {
@@ -58,7 +57,7 @@ public class ClientConnectionEventHandler extends ChannelDuplexHandler {
 
     @Override
     public void close(ChannelHandlerContext ctx, ChannelPromise promise) throws Exception {
-        logger.info("netty client close {}", RemotingUtil.parseRemoteAddress(ctx.channel()));
+        log.info("netty client close {}", RemotingUtil.parseRemoteAddress(ctx.channel()));
         final Connection connection = ctx.channel().attr(Connection.CONNECTION).get();
         connection.onClose();
         super.close(ctx, promise);

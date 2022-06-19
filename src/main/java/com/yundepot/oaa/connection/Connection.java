@@ -2,13 +2,11 @@ package com.yundepot.oaa.connection;
 
 import com.yundepot.oaa.invoke.InvokeFuture;
 import com.yundepot.oaa.protocol.Protocol;
-import com.yundepot.oaa.protocol.ProtocolCode;
 import com.yundepot.oaa.util.ConcurrentHashSet;
 import com.yundepot.oaa.util.RemotingUtil;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
 import java.util.HashSet;
@@ -23,9 +21,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author zhaiyanan
  * @date 2019/5/15 16:10
  */
+@Slf4j
 public class Connection {
-
-    private static final Logger logger = LoggerFactory.getLogger(Connection.class);
 
     /**
      * netty 的 channel
@@ -260,13 +257,13 @@ public class Connection {
             try {
                 if (this.getChannel() != null) {
                     this.getChannel().close().addListener((channelFuture) ->{
-                        logger.info("close the connection address={},result={},cause={}",
+                        log.info("close the connection address={},result={},cause={}",
                                 RemotingUtil.parseRemoteAddress(Connection.this.getChannel()),
                                 channelFuture.isSuccess(),channelFuture.cause());
                     });
                 }
             } catch (Exception e) {
-                logger.error("Exception caught when closing connection {}",RemotingUtil.parseRemoteAddress(Connection.this.getChannel()), e);
+                log.error("Exception caught when closing connection {}",RemotingUtil.parseRemoteAddress(Connection.this.getChannel()), e);
             }
         }
     }

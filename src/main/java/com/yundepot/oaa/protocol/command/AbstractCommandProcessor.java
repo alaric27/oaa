@@ -1,8 +1,7 @@
 package com.yundepot.oaa.protocol.command;
 
 import com.yundepot.oaa.invoke.InvokeContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ExecutorService;
 
@@ -11,8 +10,8 @@ import java.util.concurrent.ExecutorService;
  * @author zhaiyanan
  * @date 2019/5/21 16:41
  */
+@Slf4j
 public abstract class AbstractCommandProcessor<T extends Command> implements CommandProcessor<T> {
-    private static final Logger logger = LoggerFactory.getLogger(AbstractCommandProcessor.class);
     private ExecutorService executor;
     private CommandFactory commandFactory;
 
@@ -64,7 +63,7 @@ public abstract class AbstractCommandProcessor<T extends Command> implements Com
      * @param e
      */
     protected void processException(InvokeContext ctx, T msg, Throwable e) {
-        logger.error("CommandProcessor doProcess Exception", e);
+        log.error("CommandProcessor doProcess Exception", e);
     }
 
     /**

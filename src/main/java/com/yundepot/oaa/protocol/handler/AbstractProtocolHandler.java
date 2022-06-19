@@ -4,9 +4,11 @@ import com.yundepot.oaa.common.NamedThreadFactory;
 import com.yundepot.oaa.config.GenericOption;
 import com.yundepot.oaa.config.GlobalConfigManager;
 import com.yundepot.oaa.invoke.InvokeContext;
-import com.yundepot.oaa.protocol.command.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.yundepot.oaa.protocol.command.AbstractCommandProcessor;
+import com.yundepot.oaa.protocol.command.Command;
+import com.yundepot.oaa.protocol.command.CommandProcessor;
+import com.yundepot.oaa.protocol.command.CommandProcessorManager;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -17,9 +19,9 @@ import java.util.concurrent.TimeUnit;
  * @author zhaiyanan
  * @date 2019/5/29 18:51
  */
+@Slf4j
 public abstract class AbstractProtocolHandler implements ProtocolHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(AbstractProtocolHandler.class);
     private CommandProcessorManager commandProcessorManager;
     private ExecutorService executorService;
 
@@ -37,7 +39,7 @@ public abstract class AbstractProtocolHandler implements ProtocolHandler {
         commandProcessorManager.registerDefaultProcessor(new AbstractCommandProcessor<Command>() {
             @Override
             public void doProcess(InvokeContext ctx, Command msg) {
-                logger.error("No processor available for command code {}, msgId {}", msg.getCommandCode(), msg.getId());
+                log.error("No processor available for command code {}, msgId {}", msg.getCommandCode(), msg.getId());
             }
         });
     }
@@ -49,7 +51,7 @@ public abstract class AbstractProtocolHandler implements ProtocolHandler {
         try {
             executorService.execute(() -> processor.process(ctx, cmd));
         } catch (Throwable t) {
-            logger.error("handle command exception requestId{}", cmd.getId(), t);
+            log.error("handle command exception requestId{}", cmd.getId(), t);
             processCommandException(ctx, msg, t);
         }
     }

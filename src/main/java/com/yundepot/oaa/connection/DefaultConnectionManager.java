@@ -4,8 +4,7 @@ import com.yundepot.oaa.common.AbstractLifeCycle;
 import com.yundepot.oaa.config.ConfigManager;
 import com.yundepot.oaa.config.GenericOption;
 import com.yundepot.oaa.exception.ConnectionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Iterator;
 import java.util.Optional;
@@ -15,9 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author zhaiyanan
  * @date 2019/6/8 18:17
  */
+@Slf4j
 public class DefaultConnectionManager extends AbstractLifeCycle implements ConnectionManager{
-
-    private static final Logger logger = LoggerFactory.getLogger(DefaultConnectionManager.class);
 
     private static final int DEFAULT_EXPIRE_TIME = 10 * 60 * 1000;
 
@@ -132,7 +130,7 @@ public class DefaultConnectionManager extends AbstractLifeCycle implements Conne
                 if (pool.isEmpty()) {
                     if ((System.currentTimeMillis() - pool.getLastAccessTimestamp()) > DEFAULT_EXPIRE_TIME) {
                         iterator.remove();
-                        logger.warn("Remove expired pool task of poolKey {} which is empty.", poolKey);
+                        log.warn("Remove expired pool task of poolKey {} which is empty.", poolKey);
                     }
                 }
             }
