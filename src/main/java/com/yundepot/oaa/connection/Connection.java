@@ -257,7 +257,7 @@ public class Connection {
             try {
                 if (this.getChannel() != null) {
                     this.getChannel().close().addListener((channelFuture) ->{
-                        log.info("close the connection address={},result={},cause={}",
+                        log.debug("close the connection address={},result={},cause={}",
                                 RemotingUtil.parseRemoteAddress(Connection.this.getChannel()),
                                 channelFuture.isSuccess(),channelFuture.cause());
                     });
