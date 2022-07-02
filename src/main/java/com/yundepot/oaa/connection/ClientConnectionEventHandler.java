@@ -30,7 +30,7 @@ public class ClientConnectionEventHandler extends ChannelDuplexHandler {
 
     @Override
     public void connect(ChannelHandlerContext ctx, SocketAddress remoteAddress, SocketAddress localAddress, ChannelPromise promise) throws Exception {
-        log.info("netty client connect {} => {}", RemotingUtil.parseSocketAddressToString(localAddress),
+        log.debug("netty client connect {} => {}", RemotingUtil.parseSocketAddressToString(localAddress),
                 RemotingUtil.parseSocketAddressToString(remoteAddress));
         super.connect(ctx, remoteAddress, localAddress, promise);
         final Connection connection = ctx.channel().attr(Connection.CONNECTION).get();
@@ -45,7 +45,7 @@ public class ClientConnectionEventHandler extends ChannelDuplexHandler {
      */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.info("netty client inactive {}", RemotingUtil.parseRemoteAddress(ctx.channel()));
+        log.debug("netty client inactive {}", RemotingUtil.parseRemoteAddress(ctx.channel()));
         Connection connection = ctx.channel().attr(Connection.CONNECTION).get();
         // 如果开启了连接管理
         if (connectionManager != null && configManager.getValue(GenericOption.CONNECTION_MANAGE)) {
@@ -57,7 +57,7 @@ public class ClientConnectionEventHandler extends ChannelDuplexHandler {
 
     @Override
     public void close(ChannelHandlerContext ctx, ChannelPromise promise) throws Exception {
-        log.info("netty client close {}", RemotingUtil.parseRemoteAddress(ctx.channel()));
+        log.debug("netty client close {}", RemotingUtil.parseRemoteAddress(ctx.channel()));
         final Connection connection = ctx.channel().attr(Connection.CONNECTION).get();
         connection.onClose();
         super.close(ctx, promise);

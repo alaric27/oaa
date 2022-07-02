@@ -60,7 +60,6 @@ public class DefaultConnectionFactory extends AbstractLifeCycle implements Conne
                 .option(ChannelOption.SO_REUSEADDR, configManager.getValue(GenericOption.TCP_SO_REUSEADDR))
                 .option(ChannelOption.SO_KEEPALIVE, configManager.getValue(GenericOption.TCP_SO_KEEPALIVE));
 
-        // 初始化netty write buffer water mark
         initWriteBufferWaterMark();
 
         if (configManager.getValue(GenericOption.NETTY_BUFFER_POOLED)) {
