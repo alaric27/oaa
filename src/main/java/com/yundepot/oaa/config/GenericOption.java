@@ -12,8 +12,8 @@ public class GenericOption {
     public static final ConfigOption<Boolean> TCP_SO_KEEPALIVE = ConfigOption.valueOf("tcp.so.keepalive", true);
     public static final ConfigOption<Integer> NETTY_IO_RATIO = ConfigOption.valueOf("netty.io.ratio", 70);
     public static final ConfigOption<Boolean> NETTY_BUFFER_POOLED = ConfigOption.valueOf("netty.buffer.pooled", true);
-    public static final ConfigOption<Integer> NETTY_BUFFER_LOW_WATERMARK = ConfigOption.valueOf("netty.buffer.low.watermark", 32 * 1024);
-    public static final ConfigOption<Integer> NETTY_BUFFER_HIGH_WATERMARK = ConfigOption.valueOf("netty.buffer.high.watermark", 64 * 1024);
+    public static final ConfigOption<Integer> NETTY_BUFFER_LOW_WATERMARK = ConfigOption.valueOf("netty.buffer.low.watermark", 1024 * 1024);
+    public static final ConfigOption<Integer> NETTY_BUFFER_HIGH_WATERMARK = ConfigOption.valueOf("netty.buffer.high.watermark", 2 * 1024 * 1024);
     public static final ConfigOption<Boolean> NETTY_EPOLL_SWITCH = ConfigOption.valueOf("netty.epoll.switch", true);
     public static final ConfigOption<Boolean> NETTY_EPOLL_LT = ConfigOption.valueOf("netty.epoll.lt", true);
     public static final ConfigOption<Boolean> TCP_HEARTBEAT_SWITCH = ConfigOption.valueOf("tcp.heartbeat.switch", true);
